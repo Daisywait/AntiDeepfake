@@ -47,7 +47,7 @@ __copyright__ = "Copyright 2025, National Institute of Informatics"
 pandarallel.initialize()
 
 # Define paths
-root_folder = './dataset'
+root_folder = 'AntiDeepfake/dataset'
 dataset_name = "ASVspoof2019_LA"
 ID_PREFIX = "ASV19LA-"
 # data_folder should be /path/to/your/ASVspoof2019/LA
@@ -148,25 +148,31 @@ def write_csv(metadata):
 
 # Main script
 if __name__ == "__main__":
-    combined_metadata = []
     for protocol_file in protocol_files:
-        protocol_file = os.path.join(data_folder,
-                            'ASVspoof2019_LA_cm_protocols',
-                             protocol_file)
-        print(f"Processing protocol: {protocol_file}")
+        protocol_path = os.path.join(data_folder, 'ASVspoof2019_LA_cm_protocols', protocol_file)
+        print(f"Processing protocol: {protocol_path}")
 
-        if not os.path.exists(protocol_file):
-            print(f"Warning: Protocol file {protocol_file} not found, skipping.")
+        if not os.path.exists(protocol_path):
+            print(f"Warning: Protocol file {protocol_path} not found, skipping.")
             continue
 
-        # Step 1: Read sub-protocol
-        protocol_data = read_protocol(protocol_file)
-        # Step 2: Collect metadata
+        # 读取协议文件
+        protocol_data = read_protocol(protocol_path)
         metadata = collect_audio_metadata(protocol_data)
-        # Step 3: Write metadata to CSV
-        # Drop unwanted columns
         metadata = metadata.drop(columns=['UN'], errors='ignore')
-        # Append to combined metadata
-        combined_metadata.extend(metadata.to_dict(orient="records"))
-    write_csv(combined_metadata)
-    print(f"Metadata CSV written to {output_csv}")
+
+        # 根据文件名判断输出类型
+        if 'train' in protocol_file:
+            out_csv = os.path.join('.', 'ASVspoof2019_LA_train.csv')
+        elif 'dev' in protocol_file:
+            out_csv = os.path.join('.', 'ASVspoof2019_LA_dev.csv')
+        else:
+            out_csv = os.path.join('.', 'ASVspoof2019_LA_eval.csv')
+
+        # 写出 CSV
+        header = ["ID", "Label", "Duration", "SampleRate", "Path", "Attack", "Speaker",
+                  "Proportion", "AudioChannel", "AudioEncoding", "AudioBitSample", "Language"]
+        metadata = metadata[header]
+        metadata.to_csv(out_csv, index=False)
+        print(f"✅ Saved: {out_csv}")
+
