@@ -47,11 +47,11 @@ __copyright__ = "Copyright 2025, National Institute of Informatics"
 pandarallel.initialize()
 
 # Define paths
-root_folder = '/path/to/your/'
-dataset_name = "ASVspoof2019-LA"
+root_folder = './dataset'
+dataset_name = "ASVspoof2019_LA"
 ID_PREFIX = "ASV19LA-"
 # data_folder should be /path/to/your/ASVspoof2019/LA
-data_folder = os.path.join(root_folder, dataset_name, 'LA')
+data_folder = os.path.join(root_folder, dataset_name)
 output_csv = dataset_name + ".csv"
 protocol_files = [
     'ASVspoof2019.LA.cm.train.trn.txt',
