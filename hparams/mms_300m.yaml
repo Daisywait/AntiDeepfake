@@ -22,9 +22,10 @@ score_path: !ref <output_folder>/evaluation_score.csv
 seed: 1234
 
 # Protocol files to read
-train_csv: !ref <protocol_folder>/train.csv
-valid_csv: !ref <protocol_folder>/valid.csv
-test_csv: !ref <protocol_folder>/test.csv
+train_csv: !ref <protocol_folder>/ASVspoof2019_LA_train.csv
+valid_csv: !ref <protocol_folder>/ASVspoof2019_LA_dev.csv
+test_csv: !ref <protocol_folder>/ASVspoof2019_LA_eval.csv
+
 
 # Whether use RawBoost
 use_da: True 
