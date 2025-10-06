@@ -47,7 +47,7 @@ __copyright__ = "Copyright 2025, National Institute of Informatics"
 pandarallel.initialize()
 
 # Define paths
-root_folder = 'AntiDeepfake/dataset'
+root_folder = './Data'
 dataset_name = "ASVspoof2019_LA"
 ID_PREFIX = "ASV19LA-"
 # data_folder should be /path/to/your/ASVspoof2019/LA
